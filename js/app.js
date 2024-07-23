@@ -33,5 +33,19 @@ const datosCitas = () => {
 const citaSubmit = (e) => {
     e.preventDefault();
 
-    
+    //Los valores del objeto -> si alguno de esos valores es ''
+    if(Object.values(citaObj).some(valor => valor.trim() === '')){
+        const noti = new Notificacion({
+            texto: 'Todos los campos son obligatorios',
+            tipo: 'error'
+        })
+        return;
+    }
+}
+
+class Notificacion{
+    constructor({texto, tipo}){
+        this.texto = texto;
+        this.tipo = tipo;
+    }
 }
