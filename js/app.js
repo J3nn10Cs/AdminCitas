@@ -16,19 +16,15 @@ const citaObj ={
     sintomas: ''
 }
 
-//Eventos
-inputPaciente.addEventListener('change',datosCitas);
-inputPropietario.addEventListener('change',datosCitas);
-inputEmail.addEventListener('change',datosCitas);
-fechaImput.addEventListener('change',datosCitas);
-inputSintomas.addEventListener('change',datosCitas);
-formulario.addEventListener('submit',citaSubmit)
+
 
 //Funcion que detecta un cambio
-const datosCitas = () => {
+const datosCitas = (e) => {
     // console.log(e.target.value); //donde estoy escribiendo .value el valor
     citaObj[e.target.name] = e.target.value;
+    console.log(citaObj)
 }
+
 
 const citaSubmit = (e) => {
     e.preventDefault();
@@ -39,6 +35,9 @@ const citaSubmit = (e) => {
             texto: 'Todos los campos son obligatorios',
             tipo: 'error'
         })
+
+        noti.mostrar();
+
         return;
     }
 }
@@ -48,4 +47,31 @@ class Notificacion{
         this.texto = texto;
         this.tipo = tipo;
     }
+
+    mostrar(){
+        //Crear la notificiacion
+        const alerta = document.createElement('div');
+        alerta.classList.add('text-center','m-full','p-3','text-white','my-5','alert','uppercase', 'font-bold', 'text-sm');
+        
+        //si es de tipo error, agrega una clase ? -> entonces
+        this.tipo = 'error' ? alerta.classList.add('bg-red-500') : alerta.classList.add('bg-green-500');
+
+        //Mensaje de error
+        alerta.textContent = this.texto
+
+        //Insertar en el DOM -> parent ir al elemento padre / que inserto y antes de
+        formulario.parentElement.insertBefore(alerta,formulario)
+
+        setTimeout(() => {
+            alerta.remove();
+        }, 3000);
+    }
 }
+
+//Eventos
+inputPaciente.addEventListener('change',datosCitas);
+inputPropietario.addEventListener('change',datosCitas);
+inputEmail.addEventListener('change',datosCitas);
+fechaImput.addEventListener('change',datosCitas);
+inputSintomas.addEventListener('change',datosCitas);
+formulario.addEventListener('submit',citaSubmit)
