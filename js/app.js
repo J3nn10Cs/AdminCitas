@@ -8,6 +8,23 @@ const inputSintomas = document.querySelector('#sintomas')
 
 const citasCont = document.querySelector('#citas');
 const formulario = document.querySelector('#formulario-cita')
+const submitForm = document.querySelector('#formulario-cita input[type="submit"]')
+
+const generarId = () =>{
+    return Math.random().toString(36).substring(2) + Date.now();
+}
+
+let editando = false;
+
+//Objeto cita
+const citaObj ={
+    id: generarId(),
+    paciente: '',
+    propietario:'',
+    email:'',
+    fecha: '',
+    sintomas: ''
+}
 
 //Clase citas
 class AdminCitas{
@@ -17,6 +34,11 @@ class AdminCitas{
 
     agregar(cita){
         this.citas = [...this.citas,cita];
+        this.mostrarCita();
+    }
+
+    editarCita(citaActualizada){
+        this.citas = this.citas.map( cita => cita.id === citaActualizada.id ? citaActualizada : cita)
         this.mostrarCita();
     }
 
@@ -51,10 +73,16 @@ class AdminCitas{
             sintomas.classList.add('font-normal', 'mb-3', 'text-gray-700', 'normal-case')
             sintomas.innerHTML = `<span class="font-bold uppercase">Síntomas: </span> ${cita.sintomas}`;
 
+            //Boton editar
             const btnEditar = document.createElement('button');
             btnEditar.classList.add('py-2', 'px-10', 'bg-indigo-600', 'hover:bg-indigo-700', 'text-white', 'font-bold', 'uppercase', 'rounded-lg', 'flex', 'items-center', 'gap-2');
             btnEditar.innerHTML = 'Editar <svg fill="none" class="h-5 w-5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>'
 
+            //Funcion para el boton editar
+            const clone = structuredClone(cita);
+            btnEditar.onclick = () => cargarEdicion(clone);
+
+            //Boton eliminar
             const btnEliminar = document.createElement('button');
             btnEliminar.classList.add('py-2', 'px-10', 'bg-red-600', 'hover:bg-red-700', 'text-white', 'font-bold', 'uppercase', 'rounded-lg', 'flex', 'items-center', 'gap-2');
             btnEliminar.innerHTML = 'Eliminar <svg fill="none" class="h-5 w-5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
@@ -112,15 +140,6 @@ class Notificacion{
     }
 }
 
-//Objeto cita
-const citaObj ={
-    paciente: '',
-    propietario:'',
-    email:'',
-    fecha: '',
-    sintomas: ''
-}
-
 //Funcion que detecta un cambio
 const datosCitas = (e) => {
     // console.log(e.target.value); //donde estoy escribiendo .value el valor
@@ -132,7 +151,6 @@ const citas = new AdminCitas();
 
 const citaSubmit = (e) => {
     e.preventDefault();
-    
     //Los valores del objeto -> si alguno de esos valores es ''
     if(Object.values(citaObj).some(valor => valor.trim() === '')){
         new Notificacion({
@@ -142,20 +160,28 @@ const citaSubmit = (e) => {
         return;
     }
 
-    //Agregamos una cita -> le pasamos una copia para que no reescriba
-    citas.agregar({...citaObj});
-
+    if(editando){
+        citas.editarCita({...citaObj})
+        new Notificacion({
+            texto: 'Paciente actualizado correctamente',
+            tipo: 'exito'
+        })
+    }else{
+        //Agregamos una cita -> le pasamos una copia para que no reescriba
+        citas.agregar({...citaObj});
+        new Notificacion({
+            texto: 'Paciente registrado',
+            tipo: 'exito'
+        })
+    }
+    
     //Reiniciar el formulario
     formulario.reset();
-
+    
     ReiniciarObjeto();
-
-    new Notificacion({
-        texto: 'Paciente registrado',
-        tipo: 'exito'
-    })
-    return;
-
+    
+    submitForm.value = 'Registrar paciente'
+    editando = false
 }
 
 //Reiniciar el objeto
@@ -168,6 +194,7 @@ function ReiniciarObjeto(){
 
     //copiar valores
     Object.assign(citaObj, {
+        id:generarId(),
         paciente: '',
         propietario:'',
         email:'',
@@ -175,6 +202,21 @@ function ReiniciarObjeto(){
         sintomas: ''
     })
 
+}
+
+
+const cargarEdicion = (cita) => {
+    Object.assign(citaObj,cita)
+
+    inputPaciente.value = cita.paciente
+    inputPropietario.value = cita.propietario
+    inputEmail.value = cita.email
+    fechaImput.value = cita.fecha
+    inputSintomas.value = cita.sintomas
+
+    editando=true;
+
+    submitForm.value = 'Actualizar Paciente'
 }
 
 //Eventos
