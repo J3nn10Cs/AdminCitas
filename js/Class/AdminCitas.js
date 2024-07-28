@@ -1,3 +1,5 @@
+import { citasCont } from "../selectores.js";
+import { cargarEdicion } from "../funciones.js";
 //Clase citas
 class AdminCitas{
     constructor(){
