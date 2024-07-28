@@ -1,3 +1,4 @@
+//Importaciones
 import { fechaImput,inputPaciente, inputPropietario, inputSintomas , inputEmail, submitForm, formulario} from "./selectores.js"
 import { citaObj,editando } from "./variables.js"
 import AdminCitas from "./Class/AdminCitas.js"
