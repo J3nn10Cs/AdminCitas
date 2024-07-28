@@ -1,3 +1,4 @@
+//Importaciones
 import { generarId } from "./funciones.js";
 
 //Objeto cita
