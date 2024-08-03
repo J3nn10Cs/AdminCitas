@@ -84,3 +84,42 @@ export function ReiniciarObjeto(){
     })
 
 }
+
+let DB;
+
+export function createDataBase(){
+    //Crear la bd en version 1.0
+    const createDb = window.indexedDB.open('citas',1);
+
+    //Si hay un error
+    createDb.onerror = function(){
+        console.log('Hubo un error');
+    }
+
+    //si todo sale bien
+    createDb.onsuccess = function(){
+        console.log('La db fue creada')
+        DB = createDataBase.result;
+    }
+
+    //Definir el schema
+    createDb.onupgradeneeded = function(e){
+        const db = e.target.result;
+
+        const objectStore = db.createObjectStore('citas',{
+            KeyPath: 'id',
+            autoIncrement: true
+        })
+
+        //Definir todas las columnas
+        objectStore.createIndex('mascota', 'mascota', {unique: false});
+        objectStore.createIndex('propietario', 'propietario', {unique: false});
+        objectStore.createIndex('telefono', 'telefono', {unique: false});
+        objectStore.createIndex('fecha', 'fecha', {unique: false});
+        objectStore.createIndex('hora', 'hora', {unique: false});
+        objectStore.createIndex('sintomas', 'sintomas', {unique: false});
+        objectStore.createIndex('id', 'id', {unique: true});
+
+        console.log('Db creada y lista');   
+    }
+}

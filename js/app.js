@@ -2,8 +2,11 @@
 //Importaciones
 import { inputEmail, inputPaciente, inputPropietario, inputSintomas, fechaImput, formulario, citasCont, submitForm } from "./selectores.js";
 import { datosCitas,citaSubmit } from "./funciones.js";
+import { createDataBase } from "./funciones.js";
 
-console.log('Hola')
+window.onload = () => {
+    createDataBase();
+}
 
 //Eventos
 inputPaciente.addEventListener('change',datosCitas);
