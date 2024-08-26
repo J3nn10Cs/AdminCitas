@@ -4,6 +4,7 @@ import { citaObj,editando } from "./variables.js"
 import AdminCitas from "./Class/AdminCitas.js"
 import Notificacion from "./Class/Notificaciones.js"
 
+let DB;
 //Instanciar 
 const citas = new AdminCitas();
 
@@ -30,7 +31,7 @@ export const datosCitas = (e) => {
     citaObj[e.target.name] = e.target.value;
 }
 
-export const citaSubmit = (e) => {
+export function citaSubmit(e){
     e.preventDefault();
     //Los valores del objeto -> si alguno de esos valores es ''
     if(Object.values(citaObj).some(valor => valor.trim() === '')){
@@ -50,10 +51,23 @@ export const citaSubmit = (e) => {
     }else{
         //Agregamos una cita -> le pasamos una copia para que no reescriba
         citas.agregar({...citaObj});
-        new Notificacion({
-            texto: 'Paciente registrado',
-            tipo: 'exito'
-        })
+
+        //Agregar registros en indeXDB
+        const transaction = DB.transaction(['citas'], 'readwrite');
+
+        //Habilitar el ibjectStore  
+        const objectStore = transaction.objectStore('citas');
+
+        //Insertar en la db
+        objectStore.add(citaObj);
+
+        transaction.oncomplete = () => {
+            console.log('Se agregó correctamente');
+            new Notificacion({
+                texto: 'Paciente registrado',
+                tipo: 'exito'
+            })
+        }
     }
     
     //Reiniciar el formulario
@@ -85,7 +99,6 @@ export function ReiniciarObjeto(){
 
 }
 
-let DB;
 
 export function createDataBase(){
     //Crear la bd en version 1.0

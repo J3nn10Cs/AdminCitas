@@ -26,6 +26,9 @@ class Notificacion{
         //Mensaje de error
         alerta.textContent = this.texto
         
+        //Agregar data-cy
+        alerta.dataset.cy = 'alerta'
+
         //Insertar en el DOM -> parent ir al elemento padre / que inserto y antes de
         formulario.parentElement.insertBefore(alerta,formulario)
         
