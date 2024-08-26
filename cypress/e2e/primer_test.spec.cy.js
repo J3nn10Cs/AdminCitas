@@ -2,7 +2,7 @@
 describe('carga la pagina principal', () => {
   it('carrga la pg principal', () => {
     //Primero visita el sitio web
-    cy.visit('http://127.0.0.1:5501/index.html')
+    cy.visit('/index.html')
     //Verificar el elemento y su texto
     cy.contains('h1','Seguimiento Pacientes')
     //si existe 

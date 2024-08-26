@@ -1,5 +1,5 @@
 {
-  "name": "Using fixtures to represent data",
-  "email": "hello@cypress.io",
-  "body": "Fixtures are a great way to mock data for responses to routes"
+  "viewportHeight": 1400,
+  "viewportWidth": 1200,
+  "baseUrl": "http://127.0.0.1:5501"
 }

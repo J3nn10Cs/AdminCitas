@@ -112,7 +112,7 @@ export function createDataBase(){
     //si todo sale bien
     createDb.onsuccess = function(){
         console.log('La db fue creada')
-        DB = createDataBase.result;
+        DB = createDb.result;
     }
 
     //Definir el schema

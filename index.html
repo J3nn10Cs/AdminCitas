@@ -27,6 +27,7 @@
                         Nombre Paciente:
                     </label>
                     <input
+                        data-cy="mascota-input"
                         class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                         type="text"
                         id="paciente"
@@ -40,6 +41,7 @@
                         Nombre Propietario:
                     </label>
                     <input
+                        data-cy="propietario-input"
                         class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                         type="text"
                         id="propietario"
@@ -52,6 +54,7 @@
                         Email Contacto
                     </label>
                     <input
+                        data-cy="email-input"
                         class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                         type="email"
                         id="email"
@@ -65,6 +68,7 @@
                         Fecha Alta
                     </label>
                     <input
+                        data-cy="fecha-input" 
                         class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                         type="date"
                         id="fecha"
@@ -77,6 +81,7 @@
                         Síntomas
                     </label>
                     <textarea
+                        data-cy="sintomas-texaera"
                         class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                         id="sintomas"
                         name="sintomas"
@@ -85,6 +90,7 @@
                 </div>
 
                 <input
+                    data-cy="submit-cita"
                     type="submit"
                     class="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
                     value='Registrar Paciente'
@@ -99,7 +105,7 @@
                   <span class="text-indigo-600 font-bold ">Pacientes y Citas</span>
               </p>
               <div id="citas">
-                  <p data-cy="citas-heading" class="text-xl mt-5 mb-10 text-center">No Hay Pacientes</p>
+                  <h2 data-cy="citas-heading"  class="text-xl mt-5 mb-10 text-center">No Hay Pacientes</h2>
               </div>
           </div>
       </div>
